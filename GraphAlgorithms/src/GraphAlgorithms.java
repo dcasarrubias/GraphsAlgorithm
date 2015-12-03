@@ -2,10 +2,14 @@
 import java.util.*;
 
 public class GraphAlgorithms {
-	//ArrayList<Integer>visited = new ArrayList<Integer>();
-	//ArrayList<Integer>unvisited = new ArrayList<Integer>();
-	Map<Integer, Boolean>nodes = new HashMap<Integer, Boolean>();
+	Set<Integer> visited; // will be used to mark all the nodes that have been visited. 
+	Set<Integer> unvisited; // will be used to mark all the nodes that have not been visited. 
 	
+	public GraphAlgorithms(){
+		visited = new HashSet<Integer>(); // intializes the visited hashset
+		unvisited = new HashSet<Integer>(); // initializes the unvisited hashset
+		
+	}	
 	public static void main(String [] args){
 		GraphAlgorithms g = new GraphAlgorithms();
 		
@@ -13,13 +17,11 @@ public class GraphAlgorithms {
 		
 		g.processGraph(graph,1,5, 10);
 	}
-	public GraphAlgorithms(){
-		
-	}
+
 	
 	public int processGraph(int[][] graph, int algorithm, int s, int d){
 		
-		if(algorithm == 1){
+		if(algorithm == 1){ // if the user selects the first algorithm, call the Dijkstra's algorithm method and send the values passed by the user
 			processDijkstra(graph, s, d);
 		}
 		else if(algorithm == 2){
@@ -34,26 +36,32 @@ public class GraphAlgorithms {
 	public int processDijkstra(int [][] graph, int s, int d){
 		int cost = 0;
 		int currentNode;
-
-		nodes.put(s, true); // sets initial node to true which means it has been visited. 
+		currentNode = s;
+		//nodes.put(s, true); // sets initial node to true which means it has been visited. 
+		
+		//visited.add(s); // sets initial node to visited. S = initial node
 		
 		System.out.println("Length of array is" + " " + graph.length);
 		
 		
+		
+		//sets all other nodes to not visited. 
 		for(int i = 0; i < graph.length; i++){
-			for(int j = 0; j < graph.length; j++){
-				nodes.put(graph[i][j], false);
+			for(int j = 0; j < graph[i].length; j++){
+				System.out.print(graph[i][j] + " "); // prints out all elements in array
+				unvisited.add(i);
+				unvisited.add(j);
+				
 		}
 		}
 		
-		System.out.println(nodes);
+		System.out.println(visited);
+		System.out.println(unvisited);
 		
 		return cost;
 	}
 	
 	public int processAStar(int [][] graph, int s, int d){
 		return 0;
-		//
 	}
 }
-
