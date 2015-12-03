@@ -6,7 +6,7 @@ public class GraphAlgorithms {
 	Set<Integer> unvisited; // will be used to mark all the nodes that have not been visited. 
 	
 	public GraphAlgorithms(){
-		visited = new HashSet<Integer>(); // intializes the visited hashset
+		visited = new HashSet<Integer>(); // initializes the visited hashset
 		unvisited = new HashSet<Integer>(); // initializes the unvisited hashset
 		
 	}	
@@ -36,10 +36,17 @@ public class GraphAlgorithms {
 	public int processDijkstra(int [][] graph, int s, int d){
 		int cost = 0;
 		int currentNode;
-		currentNode = s;
+		s = 0;
+		currentNode = s; // set initial node as the current node
+		
+		//Integer x = Integer.MAX_VALUE;
+		//Integer y = Integer.MAX_VALUE;
+		
+		
+		
 		//nodes.put(s, true); // sets initial node to true which means it has been visited. 
 		
-		//visited.add(s); // sets initial node to visited. S = initial node
+		visited.add(s); // sets initial node to visited. S = initial node
 		
 		System.out.println("Length of array is" + " " + graph.length);
 		
@@ -48,15 +55,13 @@ public class GraphAlgorithms {
 		//sets all other nodes to not visited. 
 		for(int i = 0; i < graph.length; i++){
 			for(int j = 0; j < graph[i].length; j++){
-				System.out.print(graph[i][j] + " "); // prints out all elements in array
-				unvisited.add(i);
-				unvisited.add(j);
-				
+				//System.out.print(graph[i][j] + " "); // prints out all elements in array
+				unvisited.add(graph[i][j]);		
 		}
 		}
 		
-		System.out.println(visited);
-		System.out.println(unvisited);
+		System.out.println("Visited nodes" + visited);
+		System.out.println("Unvisited nodes " +unvisited);
 		
 		return cost;
 	}
