@@ -54,17 +54,10 @@ public class GraphAlgorithms {
 		
 		System.out.println("Length of array is" + " " + graph.length);
 		
-		/*
-		for(int i = 0; i < graph.length; i++){
-			for(int j = 0; j < graph[i].length; j++ )
-			dist[i & j] = Integer.MAX_VALUE;
-			
+	
+		for(int i : unvisited){
+			dist[i] = Integer.MAX_VALUE;
 		}
-		
-		*/
-		//for(int i : unvisited){
-			//dist[i] = Integer.MAX_VALUE;
-		//}
 		
 		for(int i : dist){
 			System.out.println("Elements in distance " + i);
