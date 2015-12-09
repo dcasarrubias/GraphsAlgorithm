@@ -1,22 +1,19 @@
 import java.util.*;
 
 public class GraphAlgorithms {
-	//Set<Integer> visited; // will be used to mark all the nodes that have been visited. 
-	//Set<Integer> unvisited; // will be used to mark all the nodes that have not been visited. 
-	  PriorityQueue<Integer> visited; 
-	  PriorityQueue<Integer> unvisited;
-	  
+	Set<Integer> visited; // will be used to mark all the nodes that have been visited. 
+	Set<Integer> unvisited; // will be used to mark all the nodes that have not been visited. 
+	
 	public GraphAlgorithms(){
-		visited = new PriorityQueue<Integer>(); // initializes the visited hashset
-		unvisited = new PriorityQueue<Integer>(); // initializes the unvisited hashset
+		visited = new HashSet<Integer>(); // initializes the visited hashset
+		unvisited = new HashSet<Integer>(); // initializes the unvisited hashset
 		
 	}	
 	public static void main(String [] args){
 		GraphAlgorithms g = new GraphAlgorithms();
 		
-		int [][] graph = {{0, 0, 1, 0}, {0,0,1,0,1}};
+		int [][] graph = {{0, 1, 0, 1}, {1, 0, 0, 1}};
 		
-
 		g.processGraph(graph,1,5, 10);
 	}
 
@@ -24,7 +21,7 @@ public class GraphAlgorithms {
 	public int processGraph(int[][] graph, int algorithm, int s, int d){
 		
 		if(algorithm == 1){ // if the user selects the first algorithm, call the Dijkstra's algorithm method and send the values passed by the user
-			processDijkstra(graph, s, d);
+			System.out.println(processDijkstra(graph, s, d));
 		}
 		else if(algorithm == 2){
 			processAStar(graph, s, d);
@@ -35,14 +32,12 @@ public class GraphAlgorithms {
 		
 		return 0;
 	}
-	public int[] processDijkstra(int [][] graph, int s, int d){
+	public String processDijkstra(int [][] graph, int s, int d){
 		int cost = 0;
-		int currentNode;
-		int numberOfNodes;
-		int [] dist = new int[200];
-		s = 0;
-		currentNode = s; // set initial node as the current node
-		
+		int currentnode = 0;  // set initial node as the current node
+		int distance = 0;
+		int verticies = 0;
+		Stack <Integer> pathway = new Stack <Integer>();
 		
 		//Integer x = Integer.MAX_VALUE;
 		//Integer y = Integer.MAX_VALUE;
@@ -50,48 +45,84 @@ public class GraphAlgorithms {
 		
 		
 		//nodes.put(s, true); // sets initial node to true which means it has been visited. 
+		// sets initial node to visited. S = initial node
+		
+		System.out.println("The inputed array has a dimension of " + graph[0].length + "*" + graph[1].length + ".");
 		
 		
-		System.out.println("Length of array is" + " " + graph.length);
 		
-	
-		for(int i : unvisited){
-			dist[i] = Integer.MAX_VALUE;
-		}
-		
-		for(int i : dist){
-			System.out.println("Elements in distance " + i);
-		}
-		
-		/*
-		for(int i = 0; i < graph.length; i++){
-			for(int j = 0; j < graph[i].length; j++ )
-			System.out.println( " Distance is " + graph[i][j] + " ");
-			
-		}
-		*/
-		dist[s] = 0;
-		visited.add(s); // sets initial node to visited. s is the initial node
-
 		//sets all other nodes to not visited. 
-		for(int i = 0; i < graph.length; i++){
-			for(int j = 0; j < graph[i].length; j++){
-				unvisited.add(graph[i][j]); // and add all the other elements to the univisited
-		}
-			
+		for(int i = 0; i < graph[0].length; i++){
+			for (int j = 0; j < graph[1].length; j++){
+			   if (graph[i][j] != 0){
+				   verticies += 1;
+			   }
+			}
 		}
 		
-
-		if(unvisited.contains(s)){ // if the source value is present in the unvisited list
-				unvisited.remove(s); // remove it
-			
+		if (verticies <= 2){
+			StringBuilder result = new StringBuilder();
+			int first = 0;
+			int second = 0;
+			if (d > s){
+				first = s;
+				second = d;
+			} else {
+				first = d;
+				second = s;
+			}
+				result.append("[" + Integer.toString(first) + "," + Integer.toString(second) + "]");
+				if (graph[first][0] != 0){
+					result.append(" " + Integer.toString(graph[first][0]));
+				} else {
+					result.append(" " + Integer.toString(graph[first][1]));
+				}
+				
+				return result.toString();
 			}
 		
+
+		for (int i = 0; i < graph[0].length; i++){
+				unvisited.add(i);	
+		}
 		
-		System.out.println("Visited nodes" + visited);
+		currentnode = s;
+		int runtime = 0;
+		
+
+		while (unvisited.contains(d)) {
+			int closest = 0;
+			distance = 0;
+			int prevdistance = 0;
+			visited.add(s);
+			System.out.println("running..." + currentnode);
+			
+			for (int i = 0; i < graph[currentnode].length; i++){
+				if (graph[currentnode][i] == 1){
+					distance = Math.abs(currentnode - i);
+					if ((prevdistance == 0 || distance < prevdistance) && unvisited.contains(i)){
+						closest = i;
+					}
+					prevdistance = distance;
+				}
+			}
+			
+			currentnode = closest;
+			
+			if (unvisited.contains(currentnode)){
+				visited.add(currentnode);
+				unvisited.remove(currentnode);
+				System.out.println(unvisited);
+			}
+		}
+		
+		
+		System.out.println("");
+		
+		System.out.println("Visited nodes " + visited);
 		System.out.println("Unvisited nodes " +unvisited);
 		
-		return dist;
+		return Integer.toString(currentnode);
 	}
 	
 	public int processAStar(int [][] graph, int s, int d){
